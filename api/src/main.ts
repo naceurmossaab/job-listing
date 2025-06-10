@@ -16,7 +16,7 @@ async function bootstrap() {
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const config = new DocumentBuilder()
-    .setTitle('Store API')
+    .setTitle('Job API')
     .setVersion('1.0')
     .addBearerAuth(
       {
