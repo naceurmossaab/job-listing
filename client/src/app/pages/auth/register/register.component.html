@@ -1,0 +1,58 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+  <div class="w-full max-w-md bg-white p-6 rounded-xl shadow-md">
+    <h2 class="text-2xl font-semibold mb-6 text-center">Register</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-4">
+
+      <!-- Username -->
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24">Username</nz-form-label>
+        <nz-form-control [nzSpan]="24">
+          <input nz-input formControlName="login" placeholder="Enter your username" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Name -->
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24">Name</nz-form-label>
+        <nz-form-control [nzSpan]="24">
+          <input nz-input formControlName="name" placeholder="Enter your name" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Email -->
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24">Email</nz-form-label>
+        <nz-form-control [nzSpan]="24">
+          <input nz-input type="email" formControlName="email" placeholder="Enter your email" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Password -->
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24">Password</nz-form-label>
+        <nz-form-control [nzSpan]="24">
+          <nz-input-group [nzSuffix]="passwordIcon">
+            <input nz-input [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+              placeholder="Enter your password" />
+          </nz-input-group>
+          <ng-template #passwordIcon>
+            <i nz-icon [nzType]="hidePassword ? 'eye-invisible' : 'eye'" (click)="hidePassword = !hidePassword"
+              class="cursor-pointer"></i>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Submit Button -->
+      <button nz-button nzType="primary" class="w-full" [disabled]="registerForm.invalid">
+        Register
+      </button>
+    </form>
+
+    <!-- Login link -->
+    <p class="text-center mt-4 text-sm">
+      Already have an account?
+      <a routerLink="/auth/login" class="text-blue-600 hover:underline">Login</a>
+    </p>
+  </div>
+</div>

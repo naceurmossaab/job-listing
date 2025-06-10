@@ -1,0 +1,43 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+  <div class="w-full max-w-md bg-white p-6 rounded-xl shadow-md">
+    <h2 class="text-2xl font-semibold mb-6 text-center">Login</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-5">
+
+      <!-- Username/Email Field -->
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24">Email or Username</nz-form-label>
+        <nz-form-control [nzSpan]="24">
+          <input nz-input formControlName="email" placeholder="Enter your email or username" required />
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Password Field with Toggle -->
+      <nz-form-item>
+        <nz-form-label [nzSpan]="24">Password</nz-form-label>
+        <nz-form-control [nzSpan]="24">
+          <nz-input-group [nzSuffix]="passwordIcon">
+            <input nz-input [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+              placeholder="Enter your password" required />
+          </nz-input-group>
+
+          <ng-template #passwordIcon>
+            <i nz-icon [nzType]="hidePassword ? 'eye-invisible' : 'eye'" class="cursor-pointer"
+              (click)="hidePassword = !hidePassword"></i>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Login Button -->
+      <button nz-button nzType="primary" class="w-full" htmlType="submit" [disabled]="loginForm.invalid">
+        Login
+      </button>
+    </form>
+
+    <!-- Register Link -->
+    <p class="text-center mt-4 text-sm">
+      Don’t have an account?
+      <a routerLink="/auth/register" class="text-blue-600 hover:underline">Register</a>
+    </p>
+  </div>
+</div>
