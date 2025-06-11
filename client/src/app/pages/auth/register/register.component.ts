@@ -28,8 +28,8 @@ export class RegisterComponent {
   hidePassword: Boolean = false;
 
   constructor(
-    private fb: FormBuilder, 
-    private authService: AuthService, 
+    private fb: FormBuilder,
+    private authService: AuthService,
     private router: Router,
     private messageService: NzMessageService
   ) {
@@ -38,8 +38,12 @@ export class RegisterComponent {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      role: ['user'],
+      role: ['jobseeker', Validators.required],
     });
+  }
+
+  selectRole(role: 'jobseeker' | 'employer') {
+    this.registerForm.get('role')?.setValue(role);
   }
 
   register() {
