@@ -1,1 +1,26 @@
-<p>navbar works!</p>
+<div class="bg-white shadow-md">
+  <div class="container mx-auto flex items-center justify-between">
+    <!-- Logo -->
+    <a routerLink="/" class="flex items-center">
+      <span class="ml-2 text-xl font-bold text-gray-800">JobBoard</span>
+    </a>
+
+    <!-- Navigation Links -->
+    <ul nz-menu nzMode="horizontal" class="flex-1 justify-start hidden md:flex py-2">
+      <li nz-menu-item>
+        <a routerLink="/jobs" class="text-gray-600 hover:text-blue-500">Jobs</a>
+      </li>
+    </ul>
+
+    <!-- User Section -->
+    <div class="flex items-center gap-4">
+      <ng-container *ngIf="authUser; else loginLink">
+        <span class="text-gray-600">{{ authUser.login }}</span>
+        <button nz-button nzType="primary" (click)="logout()">Logout</button>
+      </ng-container>
+      <ng-template #loginLink>
+        <a routerLink="/login" class="text-gray-600 hover:text-blue-500">Login</a>
+      </ng-template>
+    </div>
+  </div>
+</div>
