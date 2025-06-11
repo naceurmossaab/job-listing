@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IJobService } from './jobs.interface';
 import { Job } from './jobs.entity';
-import { CreateJobDto, UpdateJobDto } from './dtos';
+import { CreateJobDto, SearchJobDto, UpdateJobDto } from './dtos';
 import { User } from '../users/users.entity';
 
 @Injectable()
@@ -17,19 +17,18 @@ export class JobsService implements IJobService {
     return this.jobRepository.save(newJob);
   }
 
-  async findAll(query: any): Promise<{ data: Job[]; total: number; page: number; limit: number }> {
-    const { name, category, page = 1, limit = 10 } = query;
+  async findAll(query: SearchJobDto): Promise<{ data: Job[]; total: number; page: number; limit: number }> {
+    const { title, category, page = 1, limit = 10 } = query;
     const qb = this.jobRepository.createQueryBuilder('job');
 
-    if (name) qb.andWhere('job.name LIKE :name', { name: `%${name}%` });
+    if (title) qb.andWhere('job.title ILIKE :title', { title: `%${title}%` });
     if (category) qb.andWhere('job.category = :category', { category });
 
-    const total = await qb.getCount();
-    const data = await qb
+    const [data, total] = await qb
       .orderBy('job.createdAt', 'DESC')
       .skip((page - 1) * limit)
       .take(limit)
-      .getMany();
+      .getManyAndCount();
 
     return { data, total, page: Number(page), limit: Number(limit) };
   }

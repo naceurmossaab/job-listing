@@ -8,7 +8,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/guards/role.decorator';
 import { RolesGuard } from '../auth/guards/role.guard';
 import { IJobService } from './jobs.interface';
-import { CreateJobDto, UpdateJobDto } from './dtos';
+import { CreateJobDto, UpdateJobDto, SearchJobDto } from './dtos';
 
 @ApiTags()
 @UseFilters(new HttpExceptionFilter())
@@ -33,8 +33,8 @@ export class JobsController {
   @ApiQuery({ name: 'category', required: false, type: String, description: 'Filter by category' })
   @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Limit per page' })
   @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number' })
-  @ApiQuery({ name: 'name', required: false, type: String, description: 'Search by job name' })
-  findAll(@Query() query: any) {
+  @ApiQuery({ name: 'title', required: false, type: String, description: 'Search by job title' })
+  findAll(@Query() query: SearchJobDto) {
     return this.jobService.findAll(query);
   }
 

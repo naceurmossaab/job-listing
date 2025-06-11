@@ -1,1 +1,27 @@
-<p>jobs works!</p>
+<div class="container mx-auto p-4">
+  <div class="mb-10 flex flex-col md:flex-row gap-4">
+    <input nz-input placeholder="Search by job title" (input)="onSearch($event)" class="w-full md:w-1/3" />
+    <nz-select nzPlaceHolder="Select category" [(ngModel)]="category" (ngModelChange)="onCategoryChange($event)"
+      class="w-full md:w-1/3">
+      <nz-option nzValue="" nzLabel="All Categories"></nz-option>
+      <nz-option *ngFor="let cat of categories" [nzValue]="cat" [nzLabel]="cat"></nz-option>
+    </nz-select>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4" *ngIf="jobs.length > 0; else emptyGrid">
+    <nz-card *ngFor="let job of jobs" [nzTitle]="job.title">
+      <p>Location: {{ job.location }}</p>
+      <p>Category: {{ job.category }}</p>
+      <p>Salary: {{ job.salary }}</p>
+    </nz-card>
+  </div>
+  <ng-template #emptyGrid>
+    <nz-empty nzNotFoundContent="No jobs found for your search" [nzNotFoundImage]="null"></nz-empty>
+  </ng-template>
+  <div class="absolute bottom-3 mt-auto flex items-center gap-5">
+    <nz-pagination *ngIf="jobs.length > 0" [nzPageIndex]="page" [nzTotal]="total" [nzPageSize]="limit"
+      (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
+    <nz-select [(ngModel)]="limit" (ngModelChange)="onLimitChange($event)" class="mt-4 w-20">
+      <nz-option *ngFor="let limit of limits" [nzValue]="limit" [nzLabel]="limit"></nz-option>
+    </nz-select>
+  </div>
+</div>

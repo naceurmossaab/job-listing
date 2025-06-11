@@ -1,0 +1,16 @@
+:host {
+  @apply block w-full;
+}
+
+nz-card {
+  @apply shadow-md hover:shadow-lg transition-shadow;
+}
+
+nz-input,
+nz-select {
+  @apply border rounded-md;
+}
+
+nz-pagination {
+  @apply mt-4 flex justify-center;
+}
