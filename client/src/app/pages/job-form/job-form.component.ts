@@ -67,7 +67,7 @@ export class JobFormComponent implements OnInit {
           });
         },
         error: () => {
-          alert('Failed to load job data.');
+          this.messageService.error('Failed to load job data.');
           this.router.navigate(['/jobs']);
         }
       });

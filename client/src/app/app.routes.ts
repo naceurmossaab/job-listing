@@ -17,7 +17,7 @@ export const routes: Routes = [
           { path: '', loadComponent: () => import('./pages/jobs/jobs.component').then(m => m.JobsComponent) },
           { path: 'new', loadComponent: () => import('./pages/job-form/job-form.component').then(m => m.JobFormComponent) },
           { path: 'edit/:id', loadComponent: () => import('./pages/job-form/job-form.component').then(m => m.JobFormComponent) },
-          // { path: ':id', loadComponent: () => import('./pages/job-details/job-details.component').then(m => m.JobDetailsComponent) },
+          { path: ':id', loadComponent: () => import('./pages/job-details/job-details.component').then(m => m.JobDetailsComponent) },
         ],
       }
     ],

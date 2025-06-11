@@ -9,7 +9,8 @@
     <button nz-button type="button" nzType="dashed" routerLink="/jobs/new" class="ml-auto">add job</button>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4" *ngIf="jobs.length > 0; else emptyGrid">
-    <nz-card *ngFor="let job of jobs" [nzTitle]="job.title">
+    <nz-card *ngFor="let job of jobs" [nzTitle]="job.title" (click)="viewJobDetails(job.id)" clickable="true"
+      class="cursor-pointer rounded-2xl shadow border border-gray-200 hover:shadow-lg transition-shadow duration-300">
       <p>Location: {{ job.location }}</p>
       <p>Category: {{ job.category }}</p>
       <p>Salary: {{ job.salary }}</p>

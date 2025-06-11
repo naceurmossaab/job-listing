@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
 import { User } from '../users/users.entity';
 
 @Entity()
@@ -21,8 +21,12 @@ export class Job {
   @Column({ length: 100, nullable: false })
   category: string;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { eager: false })
+  @JoinColumn({ name: 'employerId' })
   employer: User;
+
+  @Column()
+  employerId: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date;

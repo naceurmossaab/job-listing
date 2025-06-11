@@ -46,7 +46,7 @@ export class JobsController {
   }
 
   @ApiBearerAuth('token')
-  @Roles(Role.ADMIN)
+  @Roles(Role.EMPLOYER, Role.ADMIN)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateJobDto: UpdateJobDto) {

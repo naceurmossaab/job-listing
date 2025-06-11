@@ -1,0 +1,48 @@
+<div class="max-w-3xl mx-auto px-4 py-8">
+  <nz-card nzTitle="{{ job?.title }}" class="rounded-2xl shadow border border-gray-200">
+    <div class="space-y-4">
+
+      <div class="text-sm text-gray-600 flex flex-wrap gap-4">
+        <div>
+          📍 <strong>Location:</strong>
+          <span class="ml-1">{{ job?.location }}</span>
+        </div>
+        <div>
+          💰 <strong>Salary:</strong>
+          <span class="ml-1">{{ job?.salary | currency }}</span>
+        </div>
+      </div>
+
+      <div class="text-sm text-gray-600">
+        <strong>Category:</strong>
+        <nz-tag [nzColor]="'blue'">{{ job?.category | titlecase }}</nz-tag>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold mb-2 text-gray-700">Job Description</h2>
+        <p class="text-gray-700 whitespace-pre-line">{{ job?.description }}</p>
+      </div>
+
+      <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+        <button nz-button nzType="default" [routerLink]="'/jobs'" class="mt-2">
+          ← Back to Jobs
+        </button>
+
+        <ng-container *ngIf="authUser?.role === 'jobseeker'">
+          <button nz-button nzType="primary" nzShape="round" class="bg-green-600 hover:bg-green-700 text-white mt-2"
+            (click)="applyToJob()">
+            Apply Now
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="authUser?.id === job?.employerId">
+          <button nz-button nzType="primary" nzShape="round" class="bg-blue-600 hover:bg-blue-700 text-white mt-2"
+            (click)="updateJob(job?.id!)">
+            Update Job
+          </button>
+        </ng-container>
+      </div>
+
+    </div>
+  </nz-card>
+</div>

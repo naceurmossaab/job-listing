@@ -5,6 +5,7 @@ export interface Job {
   salary: string;
   location: string;
   category: string;
+  employerId: number;
   createdAt: Date;
   updatedAt: Date;
 }

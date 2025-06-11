@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { Job } from '../../models/job';
 import { debounceTime, Subject } from 'rxjs';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-jobs',
@@ -52,7 +52,10 @@ export class JobsComponent implements OnInit {
     { value: 'others', label: 'Others' },
   ];
 
-  constructor(private jobService: JobService) { }
+  constructor(
+    private jobService: JobService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.searchSubject.pipe(debounceTime(500)).subscribe((query) => {
@@ -93,5 +96,9 @@ export class JobsComponent implements OnInit {
   onPageChange(page: number) {
     this.page = page;
     this.loadJobs();
+  }
+
+  viewJobDetails(id: number) {
+    this.router.navigate(['/jobs', id]);
   }
 }

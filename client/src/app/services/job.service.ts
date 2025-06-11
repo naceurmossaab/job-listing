@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment.development";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { JobApiResponse } from "../models/job";
+import { Job, JobApiResponse } from "../models/job";
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,7 @@ export class JobService {
   }
 
   getOne(id: string) {
-    return this.http.get(`${this.apiUrl}/${id}`, { withCredentials: true });
+    return this.http.get<Job>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
   create(data: any) {
