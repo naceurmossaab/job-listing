@@ -24,7 +24,7 @@ export class UsersController {
       const { password, ...safeUser } = user;
       return safeUser;
     } catch (error) {
-      throw new HttpException(error.sqlMessage, error.code | 400);
+      throw new HttpException(error.detail || error.message, error.code ? parseInt(error.code) : 400);
     }
   }
 

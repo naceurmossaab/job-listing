@@ -1,19 +1,18 @@
 export enum Role {
-  USER = 'user',
   ADMIN = 'admin',
+  EMPLOYER = 'employer',
+  JOBSEEKER = 'jobseeker'
 }
 
-export enum OrderStatus {
+export enum JobStatus {
   PENDING = 'pending',
-  SHIPPED = 'shipped',
-  DELIVERED = 'delivered'
+  REVIEWED = 'reviewed',
+  REJECTED = 'rejected',
+  HIRED = 'hired'
 }
 
 export enum Services {
   AUTH = "auth",
   USERS = "users",
-  PRODUCTS = "products",
-  CART = "cart",
-  WISHLIST = "wishlist",
-  ORDER = "order",
+  JOBS = "jobs",
 }
