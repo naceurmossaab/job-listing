@@ -1,7 +1,5 @@
 import { User } from "../users/users.entity";
-import { SearchJobDto } from "./dtos";
-import { CreateJobDto } from "./dtos/create-job.dto";
-import { UpdateJobDto } from "./dtos/update-job.dto";
+import { CreateJobDto, UpdateJobDto, SearchJobDto } from "./dtos";
 import { Job } from "./jobs.entity";
 
 export interface IJobService {

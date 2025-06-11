@@ -4,15 +4,16 @@ export enum Role {
   JOBSEEKER = 'jobseeker'
 }
 
-export enum JobStatus {
-  PENDING = 'pending',
-  REVIEWED = 'reviewed',
-  REJECTED = 'rejected',
-  HIRED = 'hired'
+export enum SubmissionStatus {
+  PENDING = 'Pending',
+  REVIEWED = 'Reviewed',
+  HIRED = 'Hired',
+  REJECTED = 'Rejected',
 }
 
 export enum Services {
   AUTH = "auth",
   USERS = "users",
   JOBS = "jobs",
+  SUBMISSIONS = "submissions",
 }

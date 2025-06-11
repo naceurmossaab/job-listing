@@ -1,6 +1,7 @@
 import { BeforeInsert, Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Role } from "../utils/constants";
+import { Submission } from "../submissions/submissions.entity";
 
 @Entity({ name: 'users' })
 export class User {
@@ -21,6 +22,9 @@ export class User {
 
   @Column({ type: 'enum', enum: Role, default: Role.JOBSEEKER })
   role: Role;
+
+  @OneToMany(() => Submission, submission => submission.jobSeeker)
+  submissions: Submission[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date;

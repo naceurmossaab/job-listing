@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { JobsModule } from './jobs/jobs.module';
+import { SubmissionsModule } from './submissions/submissions.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { JobsModule } from './jobs/jobs.module';
     AppRoutingModule,
     AuthModule,
     UsersModule,
-    JobsModule
+    JobsModule,
+    SubmissionsModule,
   ],
   controllers: [],
   providers: []

@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn, OneToMany } from 'typeorm';
 import { User } from '../users/users.entity';
+import { Submission } from '../submissions/submissions.entity';
 
 @Entity()
 export class Job {
@@ -27,6 +28,9 @@ export class Job {
 
   @Column()
   employerId: number;
+
+  @OneToMany(() => Submission, submission => submission.job)
+  submissions: Submission[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
   createdAt: Date;
