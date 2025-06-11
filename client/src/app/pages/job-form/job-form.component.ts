@@ -1,0 +1,91 @@
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { JobService } from '../../services/job.service';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzMessageService } from 'ng-zorro-antd/message';
+
+@Component({
+  selector: 'app-job-form',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    NzFormModule,
+    NzInputModule,
+    NzButtonModule,
+    NzSelectModule
+  ],
+  templateUrl: './job-form.component.html',
+  styleUrls: ['./job-form.component.css']
+})
+export class JobFormComponent implements OnInit {
+  private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private jobService = inject(JobService);
+  private messageService = inject(NzMessageService);
+
+  isEdit = false;
+  jobId: string | null = null;
+
+  form = this.fb.group({
+    title: ['', Validators.required],
+    description: ['', [Validators.required, Validators.minLength(10)]],
+    salary: ['', [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+    location: ['', Validators.required],
+    category: [null, Validators.required]
+  });
+
+  categories = [
+    { value: 'engineering', label: 'Engineering' },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'sales', label: 'Sales' },
+    { value: 'design', label: 'Design' },
+    { value: 'hr', label: 'Human Resources' },
+    { value: 'others', label: 'Others' },
+  ];
+
+  ngOnInit(): void {
+    this.jobId = this.route.snapshot.paramMap.get('id');
+    this.isEdit = !!this.jobId;
+
+    if (this.isEdit && this.jobId) {
+      this.jobService.getOne(this.jobId).subscribe({
+        next: (res: any) => {
+          this.form.patchValue({
+            title: res.title,
+            description: res.description,
+            salary: res.salary,
+            location: res.location,
+            category: res.category
+          });
+        },
+        error: () => {
+          alert('Failed to load job data.');
+          this.router.navigate(['/jobs']);
+        }
+      });
+    }
+  }
+
+  onSubmit(): void {
+    if (this.form.invalid) return;
+
+    const jobData = this.form.value;
+
+    const req = this.isEdit && this.jobId
+      ? this.jobService.update(this.jobId, jobData)
+      : this.jobService.create(jobData);
+
+    req.subscribe({
+      next: () => this.router.navigate(['/jobs']),
+      error: (err) => this.messageService.error('Error: ' + (err.error?.message || 'Unknown error'))
+    });
+  }
+}

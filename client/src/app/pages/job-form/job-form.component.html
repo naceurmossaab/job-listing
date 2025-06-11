@@ -1,0 +1,65 @@
+<h2 class="text-2xl font-semibold my-5">{{ isEdit ? 'Edit Job' : 'Create Job' }}</h2>
+
+<form nz-form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+
+  <!-- Job Title -->
+  <nz-form-item class="items-start">
+    <nz-form-label [nzSpan]="6" nzFor="title" class="font-medium">Job Title</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <input nz-input formControlName="title" id="title"
+        class="rounded-md px-3 py-2 border border-gray-300 focus:ring focus:ring-blue-200" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Description -->
+  <nz-form-item class="items-start">
+    <nz-form-label [nzSpan]="6" nzFor="description" class="font-medium">Description</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <textarea nz-input rows="5" formControlName="description" id="description"
+        class="rounded-md px-3 py-2 border border-gray-300 focus:ring focus:ring-blue-200"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Salary -->
+  <nz-form-item class="items-start">
+    <nz-form-label [nzSpan]="6" nzFor="salary" class="font-medium">Salary</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <input nz-input formControlName="salary" id="salary"
+        class="rounded-md px-3 py-2 border border-gray-300 focus:ring focus:ring-blue-200" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Location -->
+  <nz-form-item class="items-start">
+    <nz-form-label [nzSpan]="6" nzFor="location" class="font-medium">Location</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <input nz-input formControlName="location" id="location"
+        class="rounded-md px-3 py-2 border border-gray-300 focus:ring focus:ring-blue-200" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Category -->
+  <nz-form-item class="items-start">
+    <nz-form-label [nzSpan]="6" nzFor="category" class="font-medium">Category</nz-form-label>
+    <nz-form-control [nzSpan]="18">
+      <nz-select formControlName="category" id="category" nzPlaceHolder="Select a category" class="w-full">
+        <nz-option *ngFor="let c of categories" [nzValue]="c.value" [nzLabel]="c.label"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!-- Actions -->
+  <nz-form-item>
+    <nz-form-control [nzSpan]="24">
+      <div class="flex justify-end space-x-4">
+        <button nz-button nzType="primary" [disabled]="form.invalid" type="submit">
+          {{ isEdit ? 'Update' : 'Create' }}
+        </button>
+        <button nz-button type="button" routerLink="/jobs">
+          Cancel
+        </button>
+      </div>
+    </nz-form-control>
+  </nz-form-item>
+
+</form>

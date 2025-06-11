@@ -15,4 +15,20 @@ export class JobService {
   getJobs(params?: { title?: string; category?: string, page?: number, limit?: number }): Observable<JobApiResponse> {
     return this.http.get<JobApiResponse>(this.apiUrl, { params });
   }
+
+  getOne(id: string) {
+    return this.http.get(`${this.apiUrl}/${id}`, { withCredentials: true });
+  }
+
+  create(data: any) {
+    return this.http.post(this.apiUrl, data, { withCredentials: true });
+  }
+
+  update(id: string, data: any) {
+    return this.http.patch(`${this.apiUrl}/${id}`, data, { withCredentials: true });
+  }
+
+  delete(id: string) {
+    return this.http.delete(`${this.apiUrl}/${id}`, { withCredentials: true });
+  }
 }

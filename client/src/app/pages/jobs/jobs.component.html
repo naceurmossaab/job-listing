@@ -4,8 +4,9 @@
     <nz-select nzPlaceHolder="Select category" [(ngModel)]="category" (ngModelChange)="onCategoryChange($event)"
       class="w-full md:w-1/3">
       <nz-option nzValue="" nzLabel="All Categories"></nz-option>
-      <nz-option *ngFor="let cat of categories" [nzValue]="cat" [nzLabel]="cat"></nz-option>
+      <nz-option *ngFor="let cat of categories" [nzValue]="cat.value" [nzLabel]="cat.label"></nz-option>
     </nz-select>
+    <button nz-button type="button" nzType="dashed" routerLink="/jobs/new" class="ml-auto">add job</button>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4" *ngIf="jobs.length > 0; else emptyGrid">
     <nz-card *ngFor="let job of jobs" [nzTitle]="job.title">

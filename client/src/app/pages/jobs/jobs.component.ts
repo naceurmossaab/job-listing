@@ -7,10 +7,12 @@ import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { Job } from '../../models/job';
 import { debounceTime, Subject } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-jobs',
@@ -25,7 +27,9 @@ import { debounceTime, Subject } from 'rxjs';
     NzInputModule,
     NzSelectModule,
     NzEmptyModule,
-    FormsModule
+    NzButtonModule,
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './jobs.component.html',
   styleUrl: './jobs.component.css'
@@ -39,7 +43,14 @@ export class JobsComponent implements OnInit {
   category: string = '';
   searchSubject: Subject<string> = new Subject();
   limits: number[] = [1, 5, 10, 20, 50];
-  categories: string[] = ['Engineering', 'Marketing', 'Sales', 'Design', 'Other'];
+  categories = [
+    { value: 'engineering', label: 'Engineering' },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'sales', label: 'Sales' },
+    { value: 'design', label: 'Design' },
+    { value: 'hr', label: 'Human Resources' },
+    { value: 'others', label: 'Others' },
+  ];
 
   constructor(private jobService: JobService) { }
 

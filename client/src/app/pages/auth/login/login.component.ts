@@ -44,7 +44,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: () => this.router.navigate(['']),
-        error: (err) => this.messageService.error('Login failed! ' + err.error.message)
+        error: (err) => this.messageService.error('Login failed! ' + (err.error?.message || 'Something went wrong.')),
       });
     }
   }

@@ -1,4 +1,4 @@
-import { IsString, MinLength, IsNumber, IsNotEmpty } from 'class-validator';
+import { IsString, MinLength, IsNotEmpty, IsNumberString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateJobDto {
@@ -14,7 +14,7 @@ export class CreateJobDto {
   description: string;
 
   @ApiProperty({ example: 1800 })
-  @IsNumber()
+  @IsNumberString()
   @IsNotEmpty()
   salary: number;
 
