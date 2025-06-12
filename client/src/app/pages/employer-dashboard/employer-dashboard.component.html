@@ -7,7 +7,7 @@
       <button nz-button type="button" nzType="dashed" (click)="addJob()" class="ml-auto">add job</button>
     </ng-container>
   </div>
-  <nz-table #jobsTable [nzData]="jobs" [nzFrontPagination]="false">
+  <nz-table #jobsTable [nzData]="jobs" nzNoResult="No jobs found" [nzFrontPagination]="false">
     <thead>
       <tr>
         <th>Title</th>
@@ -36,7 +36,7 @@
 
   <!-- Applications Listing -->
   <h3 class="text-xl font-semibold mb-4 mt-8">Applications</h3>
-  <nz-table #applicationsTable [nzData]="submissions" [nzFrontPagination]="false" (nzSortOrderChange)="sort($event)">
+  <nz-table #applicationsTable [nzData]="submissions" nzNoResult="No applications found" [nzFrontPagination]="false" (nzSortOrderChange)="sort($event)">
     <thead>
       <tr>
         <th nzSortOrder="null" nzSortKey="fullName">Applicant Name</th>
