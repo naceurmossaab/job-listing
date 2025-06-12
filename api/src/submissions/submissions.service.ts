@@ -31,6 +31,9 @@ export class SubmissionService implements ISubmissionService {
     });
   }
 
+  check(jobId: number, jobSeekerId: number): Promise<Submission | null> {
+    return this.submissionRepository.findOne({ where: { jobId, jobSeekerId } });
+  }
 
   findOne(id: number) {
     return this.submissionRepository.findOne({ where: { id } });

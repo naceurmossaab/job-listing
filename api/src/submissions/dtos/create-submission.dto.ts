@@ -21,11 +21,10 @@ export class CreateSubmissionDto {
   @IsOptional()
   @IsString()
   motivationLetter?: string;
-
-  @ApiProperty()
+  
   @IsString()
-  @IsNotEmpty()
-  cvUrl: string;
+  @IsOptional()
+  cvUrl?: string;
 
   @ApiProperty()
   @IsNumberString()

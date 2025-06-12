@@ -28,18 +28,20 @@
           ← Back to Jobs
         </button>
 
-        <ng-container *ngIf="authUser?.role === 'jobseeker'">
-          <button nz-button nzType="primary" nzShape="round" class="bg-green-600 hover:bg-green-700 text-white mt-2"
-            (click)="applyToJob()">
-            Apply Now
-          </button>
-        </ng-container>
+        <ng-container *ngIf="authUser">
+          <ng-container *ngIf="authUser?.role === 'jobseeker'">
+            <button nz-button nzType="primary" nzShape="round" class="bg-green-600 hover:bg-green-700 text-white mt-2"
+              (click)="applyToJobModal(job?.id!)" [disabled]="hasApplied">
+              {{ hasApplied ? 'Already Applied' : 'Apply Now' }}
+            </button>
+          </ng-container>
 
-        <ng-container *ngIf="authUser?.id === job?.employerId">
-          <button nz-button nzType="primary" nzShape="round" class="bg-blue-600 hover:bg-blue-700 text-white mt-2"
-            (click)="updateJob(job?.id!)">
-            Update Job
-          </button>
+          <ng-container *ngIf="authUser?.id === job?.employerId">
+            <button nz-button nzType="primary" nzShape="round" class="bg-blue-600 hover:bg-blue-700 text-white mt-2"
+              (click)="updateJob(job?.id!)">
+              Update Job
+            </button>
+          </ng-container>
         </ng-container>
       </div>
 

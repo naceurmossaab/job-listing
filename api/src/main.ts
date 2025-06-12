@@ -4,9 +4,13 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AllExceptionsFilter } from './utils/all-exception.filter';
 import { useContainer } from 'class-validator';
+import { join } from 'path';
+import * as express from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const expressApp = app.getHttpAdapter().getInstance();
+  expressApp.use('/public', express.static(join(__dirname, '..', 'public')));
 
   app.enableCors({ origin: [process.env.CLIENT_URL], credentials: true });
   app.setGlobalPrefix('api/v1/');

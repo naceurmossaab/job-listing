@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UseFilters, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, UseFilters, UseGuards, Req, UploadedFile, UseInterceptors, Query } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Role, Services } from 'src/utils/constants';
 import { HttpExceptionFilter } from 'src/utils/http-exception.filter';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -9,6 +9,9 @@ import { Roles } from '../auth/guards/role.decorator';
 import { RolesGuard } from '../auth/guards/role.guard';
 import { CreateSubmissionDto, UpdateSubmissionDto } from './dtos';
 import { ISubmissionService } from './submissions.interface';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { extname } from 'path';
+import { diskStorage, Express } from 'multer';
 
 @ApiTags()
 @UseFilters(new HttpExceptionFilter())
@@ -17,37 +20,83 @@ export class SubmissionsController {
   constructor(@Inject(Services.SUBMISSIONS) private readonly submissionService: ISubmissionService) { }
 
   @ApiBearerAuth('token')
-  @Roles(Role.EMPLOYER)
+  @Roles(Role.JOBSEEKER)
   @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        fullName: { type: 'string', example: 'John Doe' },
+        email: { type: 'string', format: 'email', example: 'john@example.com' },
+        jobId: { type: 'string', example: '1' },
+        motivationLetter: { type: 'string', example: 'Optional letter', nullable: true },
+        cv: { type: 'string', format: 'binary' },
+      },
+      required: ['fullName', 'email', 'jobId', 'cv'],
+    },
+  })
+  @UseInterceptors(FileInterceptor('cv', {
+    storage: diskStorage({
+      destination: './public/uploads',
+      filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(null, `${uniqueSuffix}${extname(file.originalname)}`);
+      },
+    }),
+    fileFilter: (req, file, cb) => {
+      if (!file.originalname.match(/\.(pdf)$/))
+        return cb(new Error('Only PDF files are allowed!'), false);
+      cb(null, true);
+    },
+  }))
   @Post()
-  async create(@Req() req, @Body() createSubmissionDto: CreateSubmissionDto) {
+  async create(
+    @Req() req,
+    @Body() createSubmissionDto: CreateSubmissionDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     try {
-      return await this.submissionService.create(createSubmissionDto, req.user);
-    }
-    catch (error) {
-      throw new HttpException(error.detail || error.message, error.code ? parseInt(error.code) : 400);
+      const cvUrl = `/uploads/${file.filename}`;
+      return await this.submissionService.create(
+        { ...createSubmissionDto, cvUrl },
+        req.user,
+      );
+    } catch (error) {
+      throw new HttpException(
+        error.detail || error.message,
+        error.code ? parseInt(error.code) : 400,
+      );
     }
   }
 
   @ApiBearerAuth('token')
-  @Roles(Role.EMPLOYER, Role.ADMIN)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard)
+  @ApiQuery({ name: 'jobId', type: Number, required: true, description: 'Job ID to check' })
+  @Get('check')
+  async checkSubmission(@Query('jobId') jobId: number, @Req() req) {
+    const submission = await this.submissionService.check(jobId, req.user.id);
+    return { hasApplied: !!submission };
+  }
+
+  @ApiBearerAuth('token')
+  @UseGuards(JwtAuthGuard)
+  @ApiParam({ name: 'jobId', required: false })
   @Get('/job/:jobId')
   findAll(@Req() req, @Param('jobId') jobId?: number) {
-    if (jobId && req.user.role === Role.JOBSEEKER)
-      throw new HttpException('Job seekers cannot view submissions for jobs', HttpStatus.FORBIDDEN);
     return this.submissionService.findAll(req.user, jobId);
   }
 
   @ApiBearerAuth('token')
-  @Roles(Role.EMPLOYER, Role.ADMIN)
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles()
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: number) {
     const submission = await this.submissionService.findOne(id);
     if (!submission) throw new HttpException(`no submission with id: ${id}`, HttpStatus.BAD_REQUEST);
     return submission;
   }
+
 
   @ApiBearerAuth('token')
   @Roles(Role.EMPLOYER, Role.ADMIN)

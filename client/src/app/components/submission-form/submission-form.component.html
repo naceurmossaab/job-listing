@@ -1,0 +1,53 @@
+<div class="p-6">
+  <h2 class="text-xl font-bold mb-4">Job Application</h2>
+  <div *ngIf="hasApplied" class="mb-4 text-red-500 text-center font-medium">
+    You have already applied for this job.
+  </div>
+  <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+    <!-- FullName -->
+    <div>
+      <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name</label>
+      <input nz-input formControlName="fullName" id="fullName" class="w-full border rounded-md p-2"
+        placeholder="Enter your full name" />
+      <div *ngIf="form.get('fullName')?.touched && form.get('fullName')?.invalid" class="text-red-500 text-sm">
+        Full name is required (min 2 characters).
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+      <input nz-input formControlName="email" id="email" type="email" class="w-full border rounded-md p-2"
+        placeholder="Enter your email" />
+      <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="text-red-500 text-sm">
+        Valid email is required.
+      </div>
+    </div>
+
+    <!-- CV Upload -->
+    <div>
+      <label for="cv" class="block text-sm font-medium text-gray-700">CV (PDF)</label>
+      <input type="file" id="cv" accept=".pdf" (change)="onFileChange($event)" class="w-full border rounded-md p-2" />
+      <div *ngIf="form.get('cv')?.touched && form.get('cv')?.invalid" class="text-red-500 text-sm">
+        CV file is required.
+      </div>
+    </div>
+
+    <!-- Motivation Letter -->
+    <div>
+      <label for="motivationLetter" class="block text-sm font-medium text-gray-700">Motivation Letter</label>
+      <textarea nz-input formControlName="motivationLetter" id="motivationLetter" rows="5"
+        class="w-full border rounded-md p-2" placeholder="Write your motivation letter"></textarea>
+      <div *ngIf="form.get('motivationLetter')?.touched && form.get('motivationLetter')?.invalid"
+        class="text-red-500 text-sm">
+        Motivation letter is required (min 10 characters).
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex justify-end gap-4">
+      <button nz-button type="button" (click)="cancel()">Cancel</button>
+      <button nz-button nzType="primary" [disabled]="form.invalid">Submit</button>
+    </div>
+  </form>
+</div>

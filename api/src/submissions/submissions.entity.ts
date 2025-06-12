@@ -5,12 +5,15 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
+  Unique,
 } from 'typeorm';
 import { SubmissionStatus } from '../utils/constants';
 import { User } from '../users/users.entity';
 import { Job } from '../jobs/jobs.entity';
 
 @Entity()
+@Unique(['jobSeekerId', 'jobId'])
 export class Submission {
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,10 +31,18 @@ export class Submission {
   cvUrl: string;
 
   @ManyToOne(() => User, user => user.submissions)
+  @JoinColumn({ name: 'jobSeekerId' })
   jobSeeker: User;
 
+  @Column()
+  jobSeekerId: number;
+
   @ManyToOne(() => Job, job => job.submissions)
+  @JoinColumn({ name: 'jobId' })
   job: Job;
+
+  @Column()
+  jobId: number;
 
   @Column({
     type: 'enum',

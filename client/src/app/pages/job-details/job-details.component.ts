@@ -8,6 +8,9 @@ import { CommonModule } from '@angular/common';
 import { Job } from '../../models/job';
 import { AuthUser } from '../../models/auth';
 import { AuthService } from '../../services/auth.service';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { SubmissionComponent } from '../../components/submission-form/submission-form.component';
+import { SubmissionService } from '../../services/submission.service';
 
 @Component({
   selector: 'app-job-details',
@@ -17,7 +20,8 @@ import { AuthService } from '../../services/auth.service';
     RouterLink,
     NzCardModule,
     NzTagModule,
-    NzButtonModule
+    NzButtonModule,
+    NzModalModule
   ],
   templateUrl: './job-details.component.html',
   styleUrls: ['./job-details.component.scss']
@@ -27,9 +31,12 @@ export class JobDetailsComponent implements OnInit {
   private router = inject(Router);
   private jobService = inject(JobService);
   private authService = inject(AuthService);
+  private submissionService = inject(SubmissionService);
+  private modalService = inject(NzModalService);
 
   job?: Job;
   authUser?: AuthUser;
+  hasApplied: boolean = false;
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -38,12 +45,17 @@ export class JobDetailsComponent implements OnInit {
       return;
     }
     if (!this.authUser) this.authService.authUser$.subscribe(user => this.authUser = user);
-    
+
     this.jobService.getOne(id).subscribe({
       next: res => (this.job = res),
       error: () => {
         this.router.navigate(['/jobs']);
       }
+    });
+
+    this.submissionService.check(id).subscribe({
+      next: (response) => this.hasApplied = response.hasApplied,
+      error: (err) => { },
     });
   }
 
@@ -51,8 +63,11 @@ export class JobDetailsComponent implements OnInit {
     this.router.navigate(['/jobs/edit', id]);
   }
 
-  applyToJob(): void {
-    alert(`Applied to job: ${this.job?.title}`);
-    // TODO: Call actual apply API or show apply form
+  applyToJobModal(jobId: number) {
+    this.modalService.create({
+      nzContent: SubmissionComponent,
+      nzData: { user: this.authUser, jobId },
+      nzFooter: null,
+    });
   }
 }
