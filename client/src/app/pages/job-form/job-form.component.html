@@ -55,7 +55,7 @@
         <button nz-button nzType="primary" [disabled]="form.invalid" type="submit">
           {{ isEdit ? 'Update' : 'Create' }}
         </button>
-        <button nz-button type="button" routerLink="/jobs">
+        <button nz-button type="button" [routerLink]="previousRoute">
           Cancel
         </button>
       </div>

@@ -21,8 +21,15 @@ export class JobsService implements IJobService {
   }
 
   async findAll(query: SearchJobDto): Promise<{ data: Job[]; total: number; page: number; limit: number }> {
-    const { title, category, page = 1, limit = 10 } = query;
+    const { employerId, title, category, page = 1, limit = 10 } = query;
     const qb = this.jobRepository.createQueryBuilder('job');
+    if (employerId) {
+      const [data, total] = await qb
+        .andWhere('job.employerId = :employerId', { employerId })
+        .orderBy('job.createdAt', 'DESC')
+        .getManyAndCount();
+      return { data, total, page: 0, limit: 0 }
+    }
 
     if (title) qb.andWhere('job.title ILIKE :title', { title: `%${title}%` });
     if (category) qb.andWhere('job.category = :category', { category });

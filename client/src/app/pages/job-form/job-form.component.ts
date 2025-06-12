@@ -33,6 +33,7 @@ export class JobFormComponent implements OnInit {
 
   isEdit = false;
   jobId: string | null = null;
+  previousRoute: string = '/jobs';
 
   form = this.fb.group({
     title: ['', Validators.required],
@@ -53,6 +54,7 @@ export class JobFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.jobId = this.route.snapshot.paramMap.get('id');
+    this.route.queryParams.subscribe(params => params['info'] ? this.previousRoute = params['info'] : this.previousRoute = '/jobs');
     this.isEdit = !!this.jobId;
 
     if (this.isEdit && this.jobId) {
@@ -68,7 +70,7 @@ export class JobFormComponent implements OnInit {
         },
         error: () => {
           this.messageService.error('Failed to load job data.');
-          this.router.navigate(['/jobs']);
+          this.router.navigate([this.previousRoute]);
         }
       });
     }
@@ -84,7 +86,7 @@ export class JobFormComponent implements OnInit {
       : this.jobService.create(jobData);
 
     req.subscribe({
-      next: () => this.router.navigate(['/jobs']),
+      next: () => this.router.navigate([this.previousRoute]),
       error: (err) => this.messageService.error('Error: ' + (err.error?.message || 'Unknown error'))
     });
   }

@@ -5,3 +5,11 @@
 nz-table {
   @apply shadow-md;
 }
+
+nz-select {
+  @apply w-32;
+}
+
+nz-modal {
+  @apply max-w-lg;
+}

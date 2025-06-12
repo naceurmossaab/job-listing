@@ -2,6 +2,11 @@ import { IsString, IsOptional, IsInt, Min, IsNumberString } from 'class-validato
 import { ApiProperty } from '@nestjs/swagger';
 
 export class SearchJobDto {
+  @ApiProperty({ example: '1', required: false })
+  @IsNumberString()
+  @IsOptional()
+  employerId?: number;
+
   @ApiProperty({ example: 'Engineer', required: false })
   @IsString()
   @IsOptional()

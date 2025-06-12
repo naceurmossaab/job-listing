@@ -34,6 +34,7 @@ export class JobsController {
   @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Limit per page' })
   @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number' })
   @ApiQuery({ name: 'title', required: false, type: String, description: 'Search by job title' })
+  @ApiQuery({ name: 'employerId', required: false, type: Number, description: 'Search by employer' })
   findAll(@Query() query: SearchJobDto) {
     return this.jobService.findAll(query);
   }

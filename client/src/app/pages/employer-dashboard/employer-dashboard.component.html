@@ -1,5 +1,41 @@
 <div class="container mx-auto p-6">
-  <h2 class="text-2xl font-bold mb-4">Employer Dashboard - Applications</h2>
+  <h2 class="text-2xl font-bold mb-4">Employer Dashboard</h2>
+  <!-- Jobs Listing -->
+  <div class="flex flex-col md:flex-row gap-4">
+    <h3 class="text-xl font-semibold mb-4">Your Jobs</h3>
+    <ng-container *ngIf="authUser?.role === 'employer'">
+      <button nz-button type="button" nzType="dashed" (click)="addJob()" class="ml-auto">add job</button>
+    </ng-container>
+  </div>
+  <nz-table #jobsTable [nzData]="jobs" [nzFrontPagination]="false">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Salary</th>
+        <th>Location</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let job of jobsTable.data">
+        <td>{{ job.title }}</td>
+        <td>{{ job.salary }}</td>
+        <td>{{ job.location }}</td>
+        <td>{{ job.category }}</td>
+        <td>
+          <button nz-button nzType="link" (click)="updateJob(job.id)">Edit</button>
+          <button nz-button nzType="link" nzDanger (click)="deleteJob(job.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+    <ng-template #nzNoData>
+      <nz-empty nzNotFoundContent="No jobs found"></nz-empty>
+    </ng-template>
+  </nz-table>
+
+  <!-- Applications Listing -->
+  <h3 class="text-xl font-semibold mb-4 mt-8">Applications</h3>
   <nz-table #applicationsTable [nzData]="submissions" [nzFrontPagination]="false" (nzSortOrderChange)="sort($event)">
     <thead>
       <tr>
@@ -23,8 +59,8 @@
         </td>
         <td>
           <button nz-button nzType="link" [disabled]="!app.motivationLetter"
-            (click)="viewMotivationLetter(app?.motivationLetter)">
-            {{app.motivationLetter ? 'View Letter' : 'No Letter'}}
+            (click)="viewMotivationLetter(app.motivationLetter!)">
+            View Letter
           </button>
         </td>
         <td>

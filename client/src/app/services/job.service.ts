@@ -13,7 +13,7 @@ export class JobService {
 
   constructor(private http: HttpClient) { }
 
-  getJobs(params?: { title?: string; category?: string, page?: number, limit?: number }): Observable<JobApiResponse> {
+  getJobs(params?: { employerId?: number, title?: string; category?: string, page?: number, limit?: number }): Observable<JobApiResponse> {
     return this.http.get<JobApiResponse>(this.apiUrl, { params });
   }
 
