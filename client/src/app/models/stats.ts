@@ -1,0 +1,1 @@
+export interface IStats { totalJobs: number; totalApplications: number }

@@ -38,6 +38,15 @@ export class JobsController {
     return this.jobService.findAll(query);
   }
 
+
+  @ApiBearerAuth('token')
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Get('/stats')
+  async getStats() {
+    return this.jobService.getStats();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: number) {
     const job = await this.jobService.findOne(id);

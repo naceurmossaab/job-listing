@@ -8,4 +8,5 @@ export interface IJobService {
   findOne(id: number, query?: any): Promise<Job | null>;
   update(id: number, updateJobDto: UpdateJobDto): Promise<any>;
   remove(id: number): Promise<any>;
+  getStats(): Promise<{ totalJobs: number; totalApplications: number }>;
 }

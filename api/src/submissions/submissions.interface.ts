@@ -10,4 +10,5 @@ export interface ISubmissionService {
   findByEmployer(employerId: number): Promise<Submission[]>;
   update(id: number, updateSubmissionDto: UpdateSubmissionDto): Promise<any>;
   remove(id: number): Promise<any>;
+  count(): Promise<any>;
 }

@@ -3,6 +3,7 @@ import { environment } from "../../environments/environment.development";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Job, JobApiResponse } from "../models/job";
+import { IStats } from "../models/stats";
 
 @Injectable({
   providedIn: 'root',
@@ -34,5 +35,9 @@ export class JobService {
 
   delete(id: string) {
     return this.http.delete(`${this.apiUrl}/${id}`, { withCredentials: true });
+  }
+
+  getStats() {
+    return this.http.get<IStats>(`${this.apiUrl}/stats`, { withCredentials: true });
   }
 }

@@ -55,4 +55,8 @@ export class SubmissionService implements ISubmissionService {
   async remove(id: number) {
     return this.submissionRepository.delete(id);
   }
+
+  count(){
+    return this.submissionRepository.count();
+  }
 }

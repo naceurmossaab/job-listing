@@ -1,15 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IJobService } from './jobs.interface';
 import { Job } from './jobs.entity';
 import { CreateJobDto, SearchJobDto, UpdateJobDto } from './dtos';
 import { User } from '../users/users.entity';
+import { Services } from '../utils/constants';
+import { ISubmissionService } from '../submissions/submissions.interface';
 
 @Injectable()
 export class JobsService implements IJobService {
   constructor(
     @InjectRepository(Job) private jobRepository: Repository<Job>,
+    @Inject(Services.SUBMISSIONS) private readonly submissionService: ISubmissionService
   ) { }
 
   create(createJobDto: CreateJobDto, employer: User): Promise<Job> {
@@ -43,5 +46,11 @@ export class JobsService implements IJobService {
 
   async remove(id: number) {
     return this.jobRepository.delete(id);
+  }
+
+  async getStats(): Promise<{ totalJobs: number; totalApplications: number }> {
+    const totalJobs = await this.jobRepository.count();
+    const totalApplications = await this.submissionService.count();
+    return { totalJobs, totalApplications };
   }
 }

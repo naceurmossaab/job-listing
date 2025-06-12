@@ -4,9 +4,10 @@ import { Services } from '../utils/constants';
 import { JobsService } from './jobs.service';
 import { JobsController } from './jobs.controller';
 import { Job } from './jobs.entity';
+import { SubmissionsModule } from '../submissions/submissions.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Job])],
+  imports: [SubmissionsModule, TypeOrmModule.forFeature([Job])],
   controllers: [JobsController],
   providers: [{ provide: Services.JOBS, useClass: JobsService }],
   exports: [{ provide: Services.JOBS, useClass: JobsService }]

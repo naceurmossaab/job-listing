@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { AlreadyLoggedInGuard } from './guards/already-logged-in.guard';
+import { RoleGuard } from './guards/role.guard';
 
 
 export const routes: Routes = [
@@ -20,7 +21,8 @@ export const routes: Routes = [
           { path: ':id', loadComponent: () => import('./pages/job-details/job-details.component').then(m => m.JobDetailsComponent) },
         ],
       },
-      { path: 'employer/dashboard', canActivate: [AuthGuard], loadComponent: () => import('./pages/employer-dashboard/employer-dashboard.component').then(m => m.EmployerDashboardComponent) },
+      { path: 'employer/dashboard', canActivate: [AuthGuard, RoleGuard(['employer'])], loadComponent: () => import('./pages/employer-dashboard/employer-dashboard.component').then(m => m.EmployerDashboardComponent) },
+      { path: 'admin/dashboard', canActivate: [AuthGuard, RoleGuard(['admin'])], loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent) },
     ],
   },
   {

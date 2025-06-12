@@ -15,6 +15,11 @@
           <a routerLink="/employer/dashboard" class="text-gray-600 hover:text-blue-500">Dashboard</a>
         </li>
       </ng-container>
+      <ng-container *ngIf="authUser?.role === 'admin'">
+        <li nz-menu-item>
+          <a routerLink="/admin/dashboard" class="text-gray-600 hover:text-blue-500">Dashboard</a>
+        </li>
+      </ng-container>
     </ul>
 
     <!-- User Section -->
