@@ -13,6 +13,8 @@ import { NgFor, NgIf } from '@angular/common';
 import { Job } from '../../models/job';
 import { debounceTime, Subject } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
+import { AuthUser } from '../../models/auth';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-jobs',
@@ -35,6 +37,7 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './jobs.component.css'
 })
 export class JobsComponent implements OnInit {
+  authUser?: AuthUser;
   jobs: Job[] = [];
   total: number = 0;
   page: number = 1;
@@ -53,11 +56,14 @@ export class JobsComponent implements OnInit {
   ];
 
   constructor(
+    private authService: AuthService,
     private jobService: JobService,
     private router: Router
   ) { }
 
   ngOnInit() {
+    if (!this.authUser) this.authService.authUser$.subscribe(user => this.authUser = user);
+
     this.searchSubject.pipe(debounceTime(500)).subscribe((query) => {
       this.searchQuery = query;
       this.loadJobs();

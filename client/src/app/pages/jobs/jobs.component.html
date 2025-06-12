@@ -6,7 +6,9 @@
       <nz-option nzValue="" nzLabel="All Categories"></nz-option>
       <nz-option *ngFor="let cat of categories" [nzValue]="cat.value" [nzLabel]="cat.label"></nz-option>
     </nz-select>
-    <button nz-button type="button" nzType="dashed" routerLink="/jobs/new" class="ml-auto">add job</button>
+    <ng-container *ngIf="authUser?.role === 'employer'">
+      <button nz-button type="button" nzType="dashed" routerLink="/jobs/new" class="ml-auto">add job</button>
+    </ng-container>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-3 gap-4" *ngIf="jobs.length > 0; else emptyGrid">
     <nz-card *ngFor="let job of jobs" [nzTitle]="job.title" (click)="viewJobDetails(job.id)" clickable="true"
@@ -19,7 +21,7 @@
   <ng-template #emptyGrid>
     <nz-empty nzNotFoundContent="No jobs found for your search" [nzNotFoundImage]="null"></nz-empty>
   </ng-template>
-  <div class="absolute bottom-3 mt-auto flex items-center gap-5">
+  <div class="mt-auto flex items-center gap-5">
     <nz-pagination *ngIf="jobs.length > 0" [nzPageIndex]="page" [nzTotal]="total" [nzPageSize]="limit"
       (nzPageIndexChange)="onPageChange($event)"></nz-pagination>
     <nz-select [(ngModel)]="limit" (ngModelChange)="onLimitChange($event)" class="mt-4 w-20">

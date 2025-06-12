@@ -30,7 +30,8 @@
 
         <ng-container *ngIf="authUser">
           <ng-container *ngIf="authUser?.role === 'jobseeker'">
-            <button nz-button nzType="primary" nzShape="round" class="bg-green-600 hover:bg-green-700 text-white mt-2"
+            <button nz-button nzType="primary" nzShape="round"
+              class="bg-green-600 hover:bg-green-700 text-white mt-2 disabled:text-red-400 disabled:pointer-events-none"
               (click)="applyToJobModal(job?.id!)" [disabled]="hasApplied">
               {{ hasApplied ? 'Already Applied' : 'Apply Now' }}
             </button>
