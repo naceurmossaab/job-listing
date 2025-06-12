@@ -6,20 +6,21 @@ import { AlreadyLoggedInGuard } from './guards/already-logged-in.guard';
 export const routes: Routes = [
   {
     path: '',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     loadComponent: () => import('./components/layout/layout.component').then(m => m.LayoutComponent),
     children: [
       { path: '', redirectTo: 'jobs', pathMatch: 'full' },
       {
         path: 'jobs',
-        canActivate: [AuthGuard],
+        // canActivate: [AuthGuard],
         children: [
           { path: '', loadComponent: () => import('./pages/jobs/jobs.component').then(m => m.JobsComponent) },
-          { path: 'new', loadComponent: () => import('./pages/job-form/job-form.component').then(m => m.JobFormComponent) },
-          { path: 'edit/:id', loadComponent: () => import('./pages/job-form/job-form.component').then(m => m.JobFormComponent) },
+          { path: 'new', canActivate: [AuthGuard], loadComponent: () => import('./pages/job-form/job-form.component').then(m => m.JobFormComponent) },
+          { path: 'edit/:id', canActivate: [AuthGuard], loadComponent: () => import('./pages/job-form/job-form.component').then(m => m.JobFormComponent) },
           { path: ':id', loadComponent: () => import('./pages/job-details/job-details.component').then(m => m.JobDetailsComponent) },
         ],
-      }
+      },
+      { path: 'employer/dashboard', canActivate: [AuthGuard], loadComponent: () => import('./pages/employer-dashboard/employer-dashboard.component').then(m => m.EmployerDashboardComponent) },
     ],
   },
   {

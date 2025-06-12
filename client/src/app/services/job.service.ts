@@ -17,7 +17,11 @@ export class JobService {
   }
 
   getOne(id: string) {
-    return this.http.get<Job>(`${this.apiUrl}/${id}`, { withCredentials: true });
+    return this.http.get<Job>(`${this.apiUrl}/${id}`);
+  }
+
+  getOneWithSubmissions(id: string) {
+    return this.http.get<Job>(`${this.apiUrl}/employer/${id}?submission=true`, { withCredentials: true });
   }
 
   create(data: any) {

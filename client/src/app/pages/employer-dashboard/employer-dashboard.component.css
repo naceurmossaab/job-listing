@@ -1,0 +1,7 @@
+:host {
+  @apply block w-full;
+}
+
+nz-table {
+  @apply shadow-md;
+}

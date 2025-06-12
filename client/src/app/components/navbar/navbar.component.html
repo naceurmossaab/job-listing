@@ -10,6 +10,11 @@
       <li nz-menu-item>
         <a routerLink="/jobs" class="text-gray-600 hover:text-blue-500">Jobs</a>
       </li>
+      <ng-container *ngIf="authUser?.role === 'employer'">
+        <li nz-menu-item>
+          <a routerLink="/employer/dashboard" class="text-gray-600 hover:text-blue-500">Dashboard</a>
+        </li>
+      </ng-container>
     </ul>
 
     <!-- User Section -->

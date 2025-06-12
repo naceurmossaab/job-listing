@@ -88,6 +88,14 @@ export class SubmissionsController {
   }
 
   @ApiBearerAuth('token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.EMPLOYER)
+  @Get('employer')
+  async findByEmployer(@Req() req) {
+    return this.submissionService.findByEmployer(req.user.id);
+  }
+
+  @ApiBearerAuth('token')
   @Roles()
   @UseGuards(JwtAuthGuard)
   @Get(':id')

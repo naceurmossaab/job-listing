@@ -26,7 +26,7 @@ export class SubmissionService implements ISubmissionService {
 
     return this.submissionRepository.find({
       where,
-      relations: ['job', 'jobSeeker'],
+      // relations: ['job', 'jobSeeker'],
       order: { createdAt: 'DESC' },
     });
   }
@@ -37,6 +37,15 @@ export class SubmissionService implements ISubmissionService {
 
   findOne(id: number) {
     return this.submissionRepository.findOne({ where: { id } });
+  }
+
+  async findByEmployer(employerId: number): Promise<Submission[]> {
+    return this.submissionRepository
+      .createQueryBuilder('submission')
+      .leftJoinAndSelect('submission.job', 'job')
+      .leftJoinAndSelect('submission.jobSeeker', 'jobSeeker')
+      .where('job.employerId = :employerId', { employerId })
+      .getMany();
   }
 
   update(id: number, updateSubmissionDto: UpdateSubmissionDto) {

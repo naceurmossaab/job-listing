@@ -38,6 +38,19 @@ export class JobsController {
     return this.jobService.findAll(query);
   }
 
+  @ApiBearerAuth('token')
+  @Roles(Role.EMPLOYER, Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiQuery({ name: 'submissions', required: false, type: Boolean, description: 'Return with list submissions' })
+  @Get('/employer/:id')
+  async findOneByUser(@Req() req, @Param('id') id: number, @Query() query?: any) {
+    // only user(EMPLOYER or ADMIN) can get job with his submissions list
+    const hasAccess = req.user.role === Role.EMPLOYER || req.user.role === Role.ADMIN;
+    const job = await this.jobService.findOne(id, hasAccess ? query : {});
+    if (!job) throw new HttpException(`no job with id: ${id}`, HttpStatus.BAD_REQUEST);
+    return job;
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: number) {
     const job = await this.jobService.findOne(id);

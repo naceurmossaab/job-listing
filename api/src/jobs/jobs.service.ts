@@ -33,8 +33,10 @@ export class JobsService implements IJobService {
     return { data, total, page: Number(page), limit: Number(limit) };
   }
 
-  findOne(id: number) {
-    return this.jobRepository.findOne({ where: { id } });
+  findOne(id: number, query) {
+    let relations = {};
+    if (query.submissions) relations = { submissions: true }
+    return this.jobRepository.findOne({ where: { id }, relations });
   }
 
   update(id: number, updateJobDto: UpdateJobDto) {

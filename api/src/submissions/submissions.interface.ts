@@ -7,6 +7,7 @@ export interface ISubmissionService {
   findAll(jobSeeker: User, jobId): Promise<Submission[]>;
   check(jobId: number, jobSeekerId: number): Promise<Submission | null>;
   findOne(id: number): Promise<Submission | null>;
+  findByEmployer(employerId: number): Promise<Submission[]>;
   update(id: number, updateSubmissionDto: UpdateSubmissionDto): Promise<any>;
   remove(id: number): Promise<any>;
 }
