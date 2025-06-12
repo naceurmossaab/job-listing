@@ -40,6 +40,9 @@ export class UsersController {
     return user;
   }
 
+  @ApiBearerAuth('token')
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Patch(':id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
     const user = await this.userService.findOne(id);
@@ -48,6 +51,9 @@ export class UsersController {
     return this.userService.update(id, updateUserDto);
   }
 
+  @ApiBearerAuth('token')
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.userService.remove(id);

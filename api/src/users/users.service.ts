@@ -4,7 +4,8 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { User } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
+import { Role } from '../utils/constants';
 
 @Injectable()
 export class UsersService implements IUserService {
@@ -16,7 +17,10 @@ export class UsersService implements IUserService {
   }
 
   findAll(): Promise<User[]> {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      select: { id: true, name: true, email: true, role: true, createdAt: true, updatedAt: true },
+      where: { role: Not(Role.ADMIN) },
+    });
   }
 
   findOne(id: number): Promise<User | null> {

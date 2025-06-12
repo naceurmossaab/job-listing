@@ -33,7 +33,7 @@ export class JobService {
     return this.http.patch(`${this.apiUrl}/${id}`, data, { withCredentials: true });
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return this.http.delete(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
