@@ -63,10 +63,7 @@ export class SubmissionsController {
         req.user,
       );
     } catch (error) {
-      throw new HttpException(
-        error.detail || error.message,
-        error.code ? parseInt(error.code) : 400,
-      );
+      throw new HttpException(error.detail || error.message, 400);
     }
   }
 
