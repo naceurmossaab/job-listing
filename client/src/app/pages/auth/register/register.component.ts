@@ -7,11 +7,13 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
+    CommonModule,
     RouterLink,
     FormsModule,
     ReactiveFormsModule,
@@ -27,6 +29,14 @@ export class RegisterComponent {
   registerForm: FormGroup;
   hidePassword: Boolean = false;
 
+  private errorMessages: { [key: string]: { [key: string]: string } } = {
+    login: { required: 'Login is required.' },
+    name: { required: 'Name is required.' },
+    email: { required: 'Email is required.', email: 'Invalid email format.' },
+    password: { required: 'Password is required.', minlength: 'Password must be at least 8 characters.' },
+    role: { required: 'Role is required.' },
+  };
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -40,6 +50,14 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(8)]],
       role: ['jobseeker', Validators.required],
     });
+  }
+
+  getErrorMessage(controlName: string): string {
+    const control = this.registerForm.get(controlName);
+    if (!control?.touched || !control?.invalid || !control.errors) return '';
+
+    const errorKey = Object.keys(control.errors)[0];
+    return this.errorMessages[controlName]?.[errorKey] || 'Invalid input.';
   }
 
   selectRole(role: 'jobseeker' | 'employer') {

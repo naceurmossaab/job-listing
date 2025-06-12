@@ -5,7 +5,7 @@
   <!-- Job Title -->
   <nz-form-item class="items-start">
     <nz-form-label [nzSpan]="6" nzFor="title" class="font-medium">Job Title</nz-form-label>
-    <nz-form-control [nzSpan]="18">
+    <nz-form-control [nzSpan]="18" [nzErrorTip]="getErrorMessage('title')">
       <input nz-input formControlName="title" id="title"
         class="rounded-md px-3 py-2 border border-gray-300 focus:ring focus:ring-blue-200" />
     </nz-form-control>
@@ -14,7 +14,7 @@
   <!-- Description -->
   <nz-form-item class="items-start">
     <nz-form-label [nzSpan]="6" nzFor="description" class="font-medium">Description</nz-form-label>
-    <nz-form-control [nzSpan]="18">
+    <nz-form-control [nzSpan]="18" [nzErrorTip]="getErrorMessage('description')">
       <textarea nz-input rows="5" formControlName="description" id="description"
         class="rounded-md px-3 py-2 border border-gray-300 focus:ring focus:ring-blue-200"></textarea>
     </nz-form-control>
@@ -23,7 +23,7 @@
   <!-- Salary -->
   <nz-form-item class="items-start">
     <nz-form-label [nzSpan]="6" nzFor="salary" class="font-medium">Salary</nz-form-label>
-    <nz-form-control [nzSpan]="18">
+    <nz-form-control [nzSpan]="18" [nzErrorTip]="getErrorMessage('salary')">
       <input nz-input formControlName="salary" id="salary"
         class="rounded-md px-3 py-2 border border-gray-300 focus:ring focus:ring-blue-200" />
     </nz-form-control>
@@ -32,7 +32,7 @@
   <!-- Location -->
   <nz-form-item class="items-start">
     <nz-form-label [nzSpan]="6" nzFor="location" class="font-medium">Location</nz-form-label>
-    <nz-form-control [nzSpan]="18">
+    <nz-form-control [nzSpan]="18" [nzErrorTip]="getErrorMessage('location')">
       <input nz-input formControlName="location" id="location"
         class="rounded-md px-3 py-2 border border-gray-300 focus:ring focus:ring-blue-200" />
     </nz-form-control>
@@ -41,7 +41,7 @@
   <!-- Category -->
   <nz-form-item class="items-start">
     <nz-form-label [nzSpan]="6" nzFor="category" class="font-medium">Category</nz-form-label>
-    <nz-form-control [nzSpan]="18">
+    <nz-form-control [nzSpan]="18" [nzErrorTip]="getErrorMessage('category')">
       <nz-select formControlName="category" id="category" nzPlaceHolder="Select a category" class="w-full">
         <nz-option *ngFor="let c of categories" [nzValue]="c.value" [nzLabel]="c.label"></nz-option>
       </nz-select>

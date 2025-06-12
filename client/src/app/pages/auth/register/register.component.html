@@ -24,7 +24,7 @@
       <!-- Username -->
       <nz-form-item>
         <nz-form-label [nzSpan]="24">Username</nz-form-label>
-        <nz-form-control [nzSpan]="24">
+        <nz-form-control [nzSpan]="24" [nzErrorTip]="getErrorMessage('login')">
           <input nz-input formControlName="login" placeholder="Enter your username" />
         </nz-form-control>
       </nz-form-item>
@@ -32,7 +32,7 @@
       <!-- Name -->
       <nz-form-item>
         <nz-form-label [nzSpan]="24">Name</nz-form-label>
-        <nz-form-control [nzSpan]="24">
+        <nz-form-control [nzSpan]="24" [nzErrorTip]="getErrorMessage('name')">
           <input nz-input formControlName="name" placeholder="Enter your name" />
         </nz-form-control>
       </nz-form-item>
@@ -40,7 +40,7 @@
       <!-- Email -->
       <nz-form-item>
         <nz-form-label [nzSpan]="24">Email</nz-form-label>
-        <nz-form-control [nzSpan]="24">
+        <nz-form-control [nzSpan]="24" [nzErrorTip]="getErrorMessage('email')">
           <input nz-input type="email" formControlName="email" placeholder="Enter your email" />
         </nz-form-control>
       </nz-form-item>
@@ -48,7 +48,7 @@
       <!-- Password -->
       <nz-form-item>
         <nz-form-label [nzSpan]="24">Password</nz-form-label>
-        <nz-form-control [nzSpan]="24">
+        <nz-form-control [nzSpan]="24" [nzErrorTip]="getErrorMessage('password')">
           <nz-input-group [nzSuffix]="passwordIcon">
             <input nz-input [type]="hidePassword ? 'password' : 'text'" formControlName="password"
               placeholder="Enter your password" />

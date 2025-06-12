@@ -35,6 +35,14 @@ export class JobFormComponent implements OnInit {
   jobId: string | null = null;
   previousRoute: string = '/jobs';
 
+  private errorMessages: { [key: string]: { [key: string]: string } } = {
+    title: { required: 'Title is required.' },
+    description: { required: 'Description is required.', minlength: 'Description must be at least 10 characters.' },
+    salary: { required: 'Salary is required.', pattern: 'Salary must be number.' },
+    location: { required: 'Location is required.' },
+    category: { required: 'Category is required.' },
+  };
+
   form = this.fb.group({
     title: ['', Validators.required],
     description: ['', [Validators.required, Validators.minLength(10)]],
@@ -42,6 +50,14 @@ export class JobFormComponent implements OnInit {
     location: ['', Validators.required],
     category: [null, Validators.required]
   });
+
+  getErrorMessage(controlName: string): string {
+    const control = this.form.get(controlName);
+    if (!control?.touched || !control?.invalid || !control.errors) return '';
+
+    const errorKey = Object.keys(control.errors)[0];
+    return this.errorMessages[controlName]?.[errorKey] || 'Invalid input.';
+  }
 
   categories = [
     { value: 'engineering', label: 'Engineering' },
