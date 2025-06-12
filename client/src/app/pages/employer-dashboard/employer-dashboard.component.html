@@ -9,6 +9,7 @@
         <th nzSortOrder="null" nzSortKey="status">Status</th>
         <th>CV</th>
         <th>Motivation Letter</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -18,12 +19,19 @@
         <td>{{ app.job?.title }}</td>
         <td>{{ app.status }}</td>
         <td>
-          <a [href]="apiUrl+app.cvUrl" target="_blank" nz-button nzType="link">View CV</a>
+          <a [href]="app.cvUrl" target="_blank" nz-button nzType="link">View CV</a>
         </td>
         <td>
-          <button nz-button nzType="link" [disabled]="!app.motivationLetter">
-            View Letter
+          <button nz-button nzType="link" [disabled]="!app.motivationLetter"
+            (click)="viewMotivationLetter(app?.motivationLetter)">
+            {{app.motivationLetter ? 'View Letter' : 'No Letter'}}
           </button>
+        </td>
+        <td>
+          <nz-select [ngModel]="app.status" (ngModelChange)="updateStatus(app.id, $event)"
+            [nzDisabled]="app.status === 'Hired' || app.status === 'Rejected'" nzPlaceHolder="Change Status">
+            <nz-option *ngFor="let status of statusOptions" [nzValue]="status" [nzLabel]="status"></nz-option>
+          </nz-select>
         </td>
       </tr>
     </tbody>

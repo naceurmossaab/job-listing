@@ -34,7 +34,7 @@ export class SubmissionService {
   }
 
   updateStatus(id: number, status: string): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${id}/status`, { status }, { withCredentials: true });
+    return this.http.patch(`${this.apiUrl}/${id}`, { status }, { withCredentials: true });
   }
 
   delete(id: number): Observable<any> {
