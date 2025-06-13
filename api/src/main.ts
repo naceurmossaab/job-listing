@@ -6,6 +6,7 @@ import { AllExceptionsFilter } from './utils/all-exception.filter';
 import { useContainer } from 'class-validator';
 import { join } from 'path';
 import * as express from 'express';
+import { writeFileSync } from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -35,6 +36,7 @@ async function bootstrap() {
       'token',
     ).build();
   const document = SwaggerModule.createDocument(app, config);
+  writeFileSync('./swagger.json', JSON.stringify(document, null, 2));
   SwaggerModule.setup('', app, document, { swaggerOptions: { tagsSorter: 'alpha', operationsSorter: 'alpha' } });
 
   await app.listen(process.env.PORT ?? 3000);
